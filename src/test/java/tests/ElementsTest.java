@@ -7,11 +7,13 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
     public class ElementsTest {
         private final String DELETE_BUTTON = "//button[text()='Delete']";
+        private final int EXPECTED_QUANTITY_DELETE_BUTTONS = 1;
         private ChromeDriver driver;
 
 
@@ -27,15 +29,18 @@ import org.testng.annotations.Test;
         }
 
         @Test
-        public void verifyAddingAndRemovingElements(){
+        public void verifyAddingAndRemovingElementsTest(){
             driver.findElement(By.xpath("//a[@href='/add_remove_elements/']")).click();
             driver.findElement(By.xpath("//button[text()='Add Element']")).click();
             driver.findElement(By.xpath("//button[text()='Add Element']")).click();
             driver.findElement(By.xpath(DELETE_BUTTON)).click();
             int quantityDeleteButtons = driver.findElements(By.xpath(DELETE_BUTTON)).size();
-            Assert.assertEquals(quantityDeleteButtons, 1);
+            Assert.assertEquals(quantityDeleteButtons, EXPECTED_QUANTITY_DELETE_BUTTONS);
             //comment
         }
-    }
 
-}
+        @AfterClass
+        public void quitBrowser(){
+            driver.quit();
+        }
+    }
